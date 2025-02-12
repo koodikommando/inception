@@ -1,4 +1,4 @@
-FROM alpine:3.19
+FROM alpine:3.20
 
 RUN apk update && apk add --no-cache mariadb-client \
     php82 php82-fpm php82-mysqli php82-phar php82-mbstring
@@ -17,6 +17,9 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Create user and group
 RUN adduser -S www-data -G www-data
+
+RUN ln -s /usr/bin/php82 /usr/bin/php
+RUN php82 -v
 
 WORKDIR /var/www/html
 

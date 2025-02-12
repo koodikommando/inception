@@ -7,6 +7,7 @@ done
 
 if [ ! -f /var/www/html/wp-config.php ]; then
     echo "Installing WordPress..."
+    sed -i 's/^memory_limit = .*/memory_limit = 512M/' /etc/php82/php.ini
     wp core download --allow-root
 
     wp core config --dbname=${DB_NAME} --dbuser=${DB_USER} \
@@ -27,3 +28,4 @@ chmod -R 775 /var/www/html
 
 echo "Starting the wordpress"
 php-fpm82 -F
+
