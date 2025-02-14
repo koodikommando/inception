@@ -5,10 +5,13 @@ DATADIR := $(HOME)/data
 MARIADB := $(DATADIR)/mariadb
 WORDPRESS := $(DATADIR)/wordpress
 
-all: up
+all: build up
+
+build: $(MARIADB) $(WORDPRESS)
+	@$(DOCKER_COMPOSE) build
 
 up: $(MARIADB) $(WORDPRESS)
-	@$(DOCKER_COMPOSE) up --build -d
+	@$(DOCKER_COMPOSE) up -d
 
 down:
 	@$(DOCKER_COMPOSE) down
@@ -16,10 +19,10 @@ down:
 re: down up
 
 clean: down
-	sudo rm -rf $(DATADIR)
+	@$(DOCKER_COMPOSE) down -v --rmi all
 
 fclean: clean
-	@$(DOCKER_COMPOSE) down -v --rmi all
+	sudo rm -rf $(DATADIR)
 
 ps:
 	@$(DOCKER_COMPOSE) ps

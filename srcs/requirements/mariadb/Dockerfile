@@ -7,15 +7,9 @@ RUN mkdir -p /var/lib/mysql && chown -R mysql:mysql /var/lib/mysql
 RUN mkdir -p /var/run/mysqld && chown -R mysql:mysql /var/run/mysqld
 RUN mkdir -p /var/log/mysql && chown -R mysql:mysql /var/log/mysql
 
-# Copy mariadb config file
-COPY ./conf/my.cnf /etc/mysql/
-RUN chmod 644 /etc/mysql/my.cnf
 
-# Copy mysql init file
-COPY tools/init.sql /etc/mysql/
-RUN chmod 644 /etc/mysql/init.sql
-
-COPY ./conf/my.cnf /etc/my.cnf.d/mariadb-server.cnf
+COPY ./conf/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
+RUN chmod 644 /etc/my.cnf.d/mariadb-server.cnf
 
 # Copy entrypoint script
 COPY tools/entrypoint.sh /usr/local/bin/
